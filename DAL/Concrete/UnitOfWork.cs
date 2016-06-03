@@ -1,5 +1,5 @@
 ﻿using System;
-//using System.Data.Entity;
+using System.Data.Entity;
 using System.Diagnostics;
 using DAL.Interfacies.Repository;
 
@@ -7,26 +7,26 @@ namespace DAL.Concrete
 {
     public class UnitOfWork : IUnitOfWork
     {
-        //public DbContext Context { get; private set; }
+        public DbContext Context { get; private set; }
 
-        //public UnitOfWork(DbContext context)
-        //{
-        //    Context = context;
-        //}
+        public UnitOfWork(DbContext context)
+        {
+            Context = context;
+        }
 
         public void Commit()
         {
-           // if (Context != null)
+            if (Context != null)
             {
-                //Context.SaveChanges();
+                Context.SaveChanges();
             }
         }
 
         public void Dispose()
         {
-           // if (Context != null)
+            if (Context != null)
             {
-               // Context.Dispose();
+                Context.Dispose();
             }
         }
     }

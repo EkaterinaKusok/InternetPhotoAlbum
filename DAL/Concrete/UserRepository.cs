@@ -24,8 +24,7 @@ namespace DAL.Concrete
             return context.Set<User>().Select(user => new DalUser()
             {
                 Id = user.Id,
-                Name = user.Name,
-                Password = user.Password
+                Name = user.Name
             });
         }
 

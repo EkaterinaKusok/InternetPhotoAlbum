@@ -17,7 +17,8 @@
 
         public int UserId { get; set; }
 
+        public byte[] Content { get; set; }
+
         public virtual User User { get; set; }
-        // public ... Content{get;set;}
     }
 }

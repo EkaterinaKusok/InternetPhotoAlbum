@@ -58,15 +58,15 @@
     <Compile Include="Migrations\201606021517507_ChangeTables.Designer.cs">
       <DependentUpon>201606021517507_ChangeTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606061517497_AddColumnPhotoContent.cs" />
+    <Compile Include="Migrations\201606061517497_AddColumnPhotoContent.Designer.cs">
+      <DependentUpon>201606061517497_AddColumnPhotoContent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Photo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="User.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606012339106_CreateTables.resx">
@@ -75,6 +75,13 @@
     <EmbeddedResource Include="Migrations\201606021517507_ChangeTables.resx">
       <DependentUpon>201606021517507_ChangeTables.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606061517497_AddColumnPhotoContent.resx">
+      <DependentUpon>201606061517497_AddColumnPhotoContent.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

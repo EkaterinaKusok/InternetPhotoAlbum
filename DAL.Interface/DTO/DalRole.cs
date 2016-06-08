@@ -1,4 +1,6 @@
-﻿namespace DAL.Interfacies.DTO
+﻿using System.Collections.Generic;
+
+namespace DAL.Interfacies.DTO
 {
     public class DalRole : IEntity
     {

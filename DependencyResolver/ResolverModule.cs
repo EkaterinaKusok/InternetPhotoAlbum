@@ -4,7 +4,7 @@ using BLL.Services;
 using DAL.Concrete;
 using DAL.Interfacies.Repository;
 using Ninject;
-using Ninject.Web.Common; //???
+using Ninject.Web.Common; 
 using ORM;
 
 namespace DependencyResolver

@@ -62,6 +62,14 @@
     <Compile Include="Migrations\201606061517497_AddColumnPhotoContent.Designer.cs">
       <DependentUpon>201606061517497_AddColumnPhotoContent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606061941435_AddTableUserRoles.cs" />
+    <Compile Include="Migrations\201606061941435_AddTableUserRoles.Designer.cs">
+      <DependentUpon>201606061941435_AddTableUserRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606080357034_ChangeRoleUsersOneToMany.cs" />
+    <Compile Include="Migrations\201606080357034_ChangeRoleUsersOneToMany.Designer.cs">
+      <DependentUpon>201606080357034_ChangeRoleUsersOneToMany.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Photo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,6 +85,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606061517497_AddColumnPhotoContent.resx">
       <DependentUpon>201606061517497_AddColumnPhotoContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606061941435_AddTableUserRoles.resx">
+      <DependentUpon>201606061941435_AddTableUserRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606080357034_ChangeRoleUsersOneToMany.resx">
+      <DependentUpon>201606080357034_ChangeRoleUsersOneToMany.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

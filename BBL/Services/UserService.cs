@@ -40,5 +40,21 @@ namespace BLL.Services
             userRepository.Delete(user.ToDalUser());
             uow.Commit();
         }
+
+        public void UpdateUser(UserEntity user)
+        {
+            userRepository.Update(user.ToDalUser());
+            uow.Commit();
+        }
+
+        public RoleEntity GetUserRole(int id)
+        {
+           return userRepository.GetRole(id).ToBllRole();
+        }
+
+        public ICollection<PhotoEntity> GetUserPhotos(int id)
+        {
+            return userRepository.GetPhotosByUserId(id).ToBllPhotos();
+        }
     }
 }

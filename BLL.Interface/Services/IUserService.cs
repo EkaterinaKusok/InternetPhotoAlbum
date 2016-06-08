@@ -9,6 +9,9 @@ namespace BLL.Interfacies.Services
         IEnumerable<UserEntity> GetAllUserEntities();
         void CreateUser(UserEntity user);
         void DeleteUser(UserEntity user);
+        void UpdateUser(UserEntity user);
+        RoleEntity GetUserRole(int id);
+        ICollection<PhotoEntity> GetUserPhotos(int id);
         //etc.
     }
 }

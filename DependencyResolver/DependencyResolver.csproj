@@ -61,9 +61,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BBL\BBL.csproj">
+    <ProjectReference Include="..\BBL\BLL.csproj">
       <Project>{236d5756-bdf9-4cf1-ab81-8cc36eb3bb70}</Project>
-      <Name>BBL</Name>
+      <Name>BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\BLL.Interface\BLL.Interface.csproj">
       <Project>{dcc838d1-ccad-4f1e-ba8f-85eda59518c3}</Project>

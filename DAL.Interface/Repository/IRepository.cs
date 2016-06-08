@@ -13,5 +13,6 @@ namespace DAL.Interfacies.Repository
         void Create(TEntity e);
         void Delete(TEntity e);
         void Update(TEntity entity);
+        
     }
 }

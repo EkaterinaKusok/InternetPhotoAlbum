@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DAL.Interfacies.DTO;
 using ORM;
 
@@ -13,21 +15,62 @@ namespace DAL.Concrete
                 Id = user.Id,
                 Name = user.Name,
                 Password = user.Password,
-               // Roles = user.Roles.Select(ToDalRole).ToList(),
-                //Photos = user.Photos.Select(ToDalPhoto).ToList()
+                RoleId = user.RoleId,
+                Role = DalMappers.ToDalRole(user.Role),
+                Photos = DalMappers.ToDalPhotos(user.Photos)
             };
         }
 
-        public static User ToOrmUser(this DalUser dalUser)
+        public static User ToOrmUser(this DalUser user)
         {
             return new User()
             {
-                Id = dalUser.Id,
-                Name = dalUser.Name,
-                Password = dalUser.Password,
-                //Roles = dalUser.Roles.Select(ToOrmRole).ToList(),
-                // Photos = dalUser.Photos.Select(current => ToOrmPhoto(current)).ToList()
-                Photos = dalUser.Photos.Select(ToOrmPhoto).ToList()
+                Id = user.Id,
+                Name = user.Name,
+                Password = user.Password,
+                RoleId = user.RoleId,
+                Role = DalMappers.ToOrmRole(user.Role),
+                Photos = DalMappers.ToOrmPhotos(user.Photos)
+            };
+        }
+
+        public static DalPhoto ToDalPhoto(this Photo photo)
+        {
+            byte[] tempContent;
+            if (photo.Content != null)
+            {
+                tempContent = new byte[photo.Content.Length];
+                photo.Content.CopyTo(tempContent, 0);
+            }
+            else tempContent = null;
+
+            return new DalPhoto()
+            {
+                Id = photo.Id,
+                Name = photo.Name,
+                Description = photo.Description,
+                Content = tempContent,
+                UserId = photo.UserId
+            };
+        }
+
+        public static Photo ToOrmPhoto(this DalPhoto photo)
+        {
+            byte[] tempContent;
+            if (photo.Content != null)
+            {
+                tempContent = new byte[photo.Content.Length];
+                photo.Content.CopyTo(tempContent, 0);
+            }
+            else tempContent = null;
+
+            return new Photo()
+            {
+                Id = photo.Id,
+                Name = photo.Name,
+                Description = photo.Description,
+                Content = tempContent,
+                UserId = photo.UserId
             };
         }
 
@@ -41,42 +84,24 @@ namespace DAL.Concrete
             };
         }
 
-        public static Role ToOrmRole(this DalRole dalRole)
+        public static Role ToOrmRole(this DalRole role)
         {
             return new Role()
             {
-                Id = dalRole.Id,
-                Name = dalRole.Name,
-                Description = dalRole.Description
+                Id = role.Id,
+                Name = role.Name,
+                Description = role.Description
             };
         }
 
-        public static DalPhoto ToDalPhoto(this Photo photo)
+        public static ICollection<DalPhoto> ToDalPhotos(this ICollection<Photo> photos)
         {
-            byte[] tempContent = new byte[photo.Content.Length];
-            photo.Content.CopyTo(tempContent,0);
-            return new DalPhoto()
-            {
-                Id = photo.Id,
-                Name = photo.Name,
-                Description = photo.Description,
-                Content = tempContent,
-                UserId = photo.UserId
-            };
+            return photos.Select(photo => DalMappers.ToDalPhoto(photo)).ToList();
         }
 
-        public static Photo ToOrmPhoto(this DalPhoto dalPhoto)
+        public static ICollection<Photo> ToOrmPhotos(this ICollection<DalPhoto> photos)
         {
-            byte[] tempContent = new byte[dalPhoto.Content.Length];
-            dalPhoto.Content.CopyTo(tempContent, 0);
-            return new Photo()
-            {
-                Id = dalPhoto.Id,
-                Name = dalPhoto.Name,
-                Description = dalPhoto.Description,
-                Content = tempContent,
-                UserId = dalPhoto.UserId
-            };
+            return photos.Select(photo => DalMappers.ToOrmPhoto(photo)).ToList();
         }
     }
 }

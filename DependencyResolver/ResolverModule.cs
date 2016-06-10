@@ -2,6 +2,7 @@
 using BLL.Interfacies.Services;
 using BLL.Services;
 using DAL.Concrete;
+using DAL.Interfacies.DTO;
 using DAL.Interfacies.Repository;
 using Ninject;
 using Ninject.Web.Common; 
@@ -35,7 +36,10 @@ namespace DependencyResolver
             }
 
             kernel.Bind<IUserService>().To<UserService>();
+            kernel.Bind<IPhotoService>().To<PhotoService>();
             kernel.Bind<IUserRepository>().To<UserRepository>();
+            kernel.Bind<IPhotoRepository>().To<PhotoRepository>();
+            kernel.Bind<IRepository<DalRole> >().To<RoleRepository>();
         }
     }
 }

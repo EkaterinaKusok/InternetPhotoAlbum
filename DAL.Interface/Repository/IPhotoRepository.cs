@@ -4,8 +4,8 @@ using DAL.Interfacies.DTO;
 
 namespace DAL.Interfacies.Repository
 {
-    public interface IUserRepository : IRepository<DalUser>//Add user repository methods!
+    public interface IPhotoRepository : IRepository<DalPhoto>//Add photo repository methods!
     {
-        //string GetRoleNameByUserId(int key);
+        
     }
 }

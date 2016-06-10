@@ -19,7 +19,7 @@ namespace BLL.Services
             this.userRepository = repository;
         }
 
-        public UserEntity GetUserEntity(int id)
+        public UserEntity GetUserEntityById(int id)
         {
             return userRepository.GetById(id).ToBllUser();
         }
@@ -45,16 +45,6 @@ namespace BLL.Services
         {
             userRepository.Update(user.ToDalUser());
             uow.Commit();
-        }
-
-        public RoleEntity GetUserRole(int id)
-        {
-           return userRepository.GetRole(id).ToBllRole();
-        }
-
-        public ICollection<PhotoEntity> GetUserPhotos(int id)
-        {
-            return userRepository.GetPhotosByUserId(id).ToBllPhotos();
         }
     }
 }

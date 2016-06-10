@@ -8,6 +8,8 @@ namespace BLL.Interfacies.Entities
         public string UserName { get; set; }
         public string UserPassword { get; set; }
         public int UserRoleId { get; set; }
+        public virtual RoleEntity UserRole { get; set; }
+
         //public virtual ICollection<RoleEntity> Roles { get; set; }
         public virtual ICollection<PhotoEntity> Photos { get; set; }
 

@@ -15,8 +15,9 @@ namespace BLL.Mappers
                 Name = userEntity.UserName,
                 Password = userEntity.UserPassword,
                 RoleId = userEntity.UserRoleId,
+                Role = ToDalRole(userEntity.UserRole),
                 //Roles = userEntity.Roles.Select(ToDalRole).ToList(),
-                //Photos = userEntity.Photos.Select(ToDalPhoto).ToList()
+                Photos = userEntity.Photos.Select(ToDalPhoto).ToList()
             };
         }
 
@@ -27,9 +28,10 @@ namespace BLL.Mappers
                 Id = dalUser.Id,
                 UserName = dalUser.Name,
                 UserPassword = dalUser.Password,
-                UserRoleId = dalUser.RoleId
+                UserRoleId = dalUser.RoleId,
+                UserRole = ToBllRole(dalUser.Role),
                 //Roles = dalUser.Roles.Select(ToBllRole).ToList(),
-                //Photos = dalUser.Photos.Select(ToBllPhoto).ToList()
+                Photos = dalUser.Photos.Select(ToBllPhoto).ToList()
             };
         }
 
@@ -50,14 +52,18 @@ namespace BLL.Mappers
                 Id = dalRole.Id,
                 Name = dalRole.Name,
                 Description = dalRole.Description
-
             };
         }
 
         public static DalPhoto ToDalPhoto(this PhotoEntity photoEntity)
         {
-            byte[] tempContent = new byte[photoEntity.Content.Length];
-            photoEntity.Content.CopyTo(tempContent, 0);
+            byte[] tempContent;
+            if (photoEntity.Content != null)
+            {
+                tempContent = new byte[photoEntity.Content.Length];
+                photoEntity.Content.CopyTo(tempContent, 0);
+            }
+            else tempContent = null;
             return new DalPhoto()
             {
                 Id = photoEntity.Id,
@@ -70,26 +76,31 @@ namespace BLL.Mappers
 
         public static PhotoEntity ToBllPhoto(this DalPhoto dalPhoto)
         {
-            //byte[] tempContent = new byte[dalPhoto.Content.Length];
-            //dalPhoto.Content.CopyTo(tempContent, 0);
+            byte[] tempContent;
+            if (dalPhoto.Content != null)
+            {
+                tempContent = new byte[dalPhoto.Content.Length];
+                dalPhoto.Content.CopyTo(tempContent, 0);
+            }
+            else tempContent = null;
             return new PhotoEntity()
             {
                 Id = dalPhoto.Id,
                 PhotoName = dalPhoto.Name,
                 Description = dalPhoto.Description,
-                Content = null,//tempContent,
+                Content = tempContent,
                 UserId = dalPhoto.UserId
             };
         }
 
-        public static ICollection<PhotoEntity> ToBllPhotos(this ICollection<DalPhoto> dalPhotos)
-        {
-            ICollection<PhotoEntity> bllPhotos = new List<PhotoEntity>();
-            foreach (var dalPhoto in dalPhotos)
-            {
-                bllPhotos.Add(ToBllPhoto(dalPhoto));
-            }
-            return bllPhotos;
-        }
+        //public static ICollection<PhotoEntity> ToBllPhotos(this ICollection<DalPhoto> dalPhotos)
+        //{
+        //    ICollection<PhotoEntity> bllPhotos = new List<PhotoEntity>();
+        //    foreach (var dalPhoto in dalPhotos)
+        //    {
+        //        bllPhotos.Add(ToBllPhoto(dalPhoto));
+        //    }
+        //    return bllPhotos;
+        //}
     }
 }

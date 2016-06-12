@@ -42,11 +42,11 @@ namespace DAL.Concrete
             context.Set<Role>().Add(role);
         }
 
-        public void Delete(DalRole ph)
+        public void Delete(DalRole e)
         {
-            var role = ph.ToOrmRole();
+            var role = e.ToOrmRole();
             role = context.Set<Role>().Single(u => u.Id == role.Id);
-            context.Set<Role>().Remove(role); ;
+            context.Set<Role>().Remove(role); 
         }
 
         public void Update(DalRole entity)

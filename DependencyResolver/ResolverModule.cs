@@ -36,10 +36,16 @@ namespace DependencyResolver
             }
 
             kernel.Bind<IUserService>().To<UserService>();
+            kernel.Bind<IUserProfileService>().To<UserProfileService>();
             kernel.Bind<IPhotoService>().To<PhotoService>();
+            kernel.Bind<IRoleService>().To<RoleService>();
+            kernel.Bind<IRatingService>().To<RatingService>();
+
             kernel.Bind<IUserRepository>().To<UserRepository>();
             kernel.Bind<IPhotoRepository>().To<PhotoRepository>();
             kernel.Bind<IRepository<DalRole> >().To<RoleRepository>();
+            kernel.Bind<IRepository<DalRating> >().To<RatingRepository>();
+            kernel.Bind<IRepository<DalUserProfile> >().To<UserProfileRepository>();
         }
     }
 }

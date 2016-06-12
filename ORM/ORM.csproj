@@ -70,9 +70,15 @@
     <Compile Include="Migrations\201606080357034_ChangeRoleUsersOneToMany.Designer.cs">
       <DependentUpon>201606080357034_ChangeRoleUsersOneToMany.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606121649123_NewScheme.cs" />
+    <Compile Include="Migrations\201606121649123_NewScheme.Designer.cs">
+      <DependentUpon>201606121649123_NewScheme.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Photo.cs" />
+    <Compile Include="UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rating.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
@@ -91,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606080357034_ChangeRoleUsersOneToMany.resx">
       <DependentUpon>201606080357034_ChangeRoleUsersOneToMany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606121649123_NewScheme.resx">
+      <DependentUpon>201606121649123_NewScheme.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

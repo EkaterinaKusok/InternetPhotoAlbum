@@ -51,8 +51,10 @@
   <ItemGroup>
     <Compile Include="Concrete\DalMappers.cs" />
     <Compile Include="Concrete\PhotoRepository.cs" />
+    <Compile Include="Concrete\RatingRepository.cs" />
     <Compile Include="Concrete\RoleRepository.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
+    <Compile Include="Concrete\UserProfileRepository.cs" />
     <Compile Include="Concrete\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

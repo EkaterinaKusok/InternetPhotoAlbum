@@ -9,16 +9,16 @@
     public partial class Photo
     {
         public int Id { get; set; }
-
-        [Required]
+        public byte[] Image { get; set; }
         public string Name { get; set; }
-
         public string Description { get; set; }
+        public int UserProfileId { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
 
-        public int UserId { get; set; }
-
-        public byte[] Content { get; set; }
-
-        public virtual User User { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
+        public Photo()
+        {
+            Ratings = new List<Rating>();
+        }
     }
 }

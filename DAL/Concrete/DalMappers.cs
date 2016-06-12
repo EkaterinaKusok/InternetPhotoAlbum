@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DAL.Interfacies.DTO;
@@ -13,11 +14,10 @@ namespace DAL.Concrete
             return new DalUser()
             {
                 Id = user.Id,
-                Name = user.Name,
+                Email = user.Email,
                 Password = user.Password,
-                RoleId = user.RoleId,
-                Role = DalMappers.ToDalRole(user.Role),
-                Photos = DalMappers.ToDalPhotos(user.Photos)
+                CreationDate = user.CreationDate,
+                Roles = ToDalRoles(user.Roles)
             };
         }
 
@@ -26,51 +26,90 @@ namespace DAL.Concrete
             return new User()
             {
                 Id = user.Id,
-                Name = user.Name,
+                Email = user.Email,
                 Password = user.Password,
-                RoleId = user.RoleId,
-                Role = DalMappers.ToOrmRole(user.Role),
-                Photos = DalMappers.ToOrmPhotos(user.Photos)
+                CreationDate = user.CreationDate,
+                Roles = ToOrmRoles(user.Roles)
+            };
+        }
+
+        public static DalUserProfile ToDalUserProfile(this UserProfile userPr)
+        {
+            byte[] tempPhoto = null;
+            if (userPr.UserPhoto != null)
+            {
+                tempPhoto = new byte[userPr.UserPhoto.Length];
+                userPr.UserPhoto.CopyTo(tempPhoto, 0);
+            }
+            return new DalUserProfile()
+            {
+                Id = userPr.Id,
+                FirstName = userPr.FirstName,
+                LastName = userPr.LastName,
+                UserPhoto = tempPhoto,
+                DateOfBirth = userPr.DateOfBirth,
+                LastUpdateDate = userPr.LastUpdateDate,
+                Photos = ToDalPhotos(userPr.Photos)
+            };
+        }
+
+        public static UserProfile ToOrmUserProfile(this DalUserProfile userPr)
+        {
+            byte[] tempPhoto = null;
+            if (userPr.UserPhoto != null)
+            {
+                tempPhoto = new byte[userPr.UserPhoto.Length];
+                userPr.UserPhoto.CopyTo(tempPhoto, 0);
+            }
+            return new UserProfile()
+            {
+                Id = userPr.Id,
+                FirstName = userPr.FirstName,
+                LastName = userPr.LastName,
+                UserPhoto = tempPhoto,
+                DateOfBirth = userPr.DateOfBirth,
+                LastUpdateDate = userPr.LastUpdateDate,
+                Photos = ToOrmPhotos(userPr.Photos)
             };
         }
 
         public static DalPhoto ToDalPhoto(this Photo photo)
         {
-            byte[] tempContent;
-            if (photo.Content != null)
+            byte[] tempContent = null;
+            if (photo.Image != null)
             {
-                tempContent = new byte[photo.Content.Length];
-                photo.Content.CopyTo(tempContent, 0);
+                tempContent = new byte[photo.Image.Length];
+                photo.Image.CopyTo(tempContent, 0);
             }
-            else tempContent = null;
 
             return new DalPhoto()
             {
                 Id = photo.Id,
+                Image = tempContent,
                 Name = photo.Name,
                 Description = photo.Description,
-                Content = tempContent,
-                UserId = photo.UserId
+                UserId = photo.UserProfileId,
+                Ratings = ToDalRatings(photo.Ratings)
             };
         }
 
         public static Photo ToOrmPhoto(this DalPhoto photo)
         {
-            byte[] tempContent;
-            if (photo.Content != null)
+            byte[] tempContent = null;
+            if (photo.Image != null)
             {
-                tempContent = new byte[photo.Content.Length];
-                photo.Content.CopyTo(tempContent, 0);
+                tempContent = new byte[photo.Image.Length];
+                photo.Image.CopyTo(tempContent, 0);
             }
-            else tempContent = null;
 
             return new Photo()
             {
                 Id = photo.Id,
+                Image = tempContent,
                 Name = photo.Name,
                 Description = photo.Description,
-                Content = tempContent,
-                UserId = photo.UserId
+                UserProfileId = photo.UserId,
+                Ratings = ToOrmRatings(photo.Ratings)
             };
         }
 
@@ -94,14 +133,51 @@ namespace DAL.Concrete
             };
         }
 
-        public static ICollection<DalPhoto> ToDalPhotos(this ICollection<Photo> photos)
+        public static DalRating ToDalRating(this Rating rating)
         {
-            return photos.Select(photo => DalMappers.ToDalPhoto(photo)).ToList();
+            return new DalRating()
+            {
+                Id = rating.RatingId,
+                UserRating = rating.UserRating,
+                FromUserId = rating.UserProfileId,
+                PhotoId = rating.PhotoId
+            };
         }
 
-        public static ICollection<Photo> ToOrmPhotos(this ICollection<DalPhoto> photos)
+        public static Rating ToOrmRating(this DalRating rating)
         {
-            return photos.Select(photo => DalMappers.ToOrmPhoto(photo)).ToList();
+            return new Rating()
+            {
+                RatingId = rating.Id,
+                UserRating = rating.UserRating,
+                UserProfileId = rating.FromUserId,
+                PhotoId = rating.PhotoId
+            };
+        }
+
+        private static ICollection<DalPhoto> ToDalPhotos(this ICollection<Photo> photos)
+        {
+            return photos.Select(photo => ToDalPhoto(photo)).ToList();
+        }
+        private static ICollection<Photo> ToOrmPhotos(this ICollection<DalPhoto> photos)
+        {
+            return photos.Select(photo => ToOrmPhoto(photo)).ToList();
+        }
+        private static ICollection<DalRole> ToDalRoles(this ICollection<Role> roles)
+        {
+            return roles.Select(role => ToDalRole(role)).ToList();
+        }
+        private static ICollection<Role> ToOrmRoles(this ICollection<DalRole> roles)
+        {
+            return roles.Select(role => ToOrmRole(role)).ToList();
+        }
+        private static ICollection<DalRating> ToDalRatings(this ICollection<Rating> ratings)
+        {
+            return ratings.Select(rating => ToDalRating(rating)).ToList();
+        }
+        private static ICollection<Rating> ToOrmRatings(this ICollection<DalRating> ratings)
+        {
+            return ratings.Select(rating => ToOrmRating(rating)).ToList();
         }
     }
 }

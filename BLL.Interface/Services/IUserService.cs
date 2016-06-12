@@ -10,6 +10,5 @@ namespace BLL.Interfacies.Services
         void CreateUser(UserEntity user);
         void DeleteUser(UserEntity user);
         void UpdateUser(UserEntity user);
-        //etc.
     }
 }

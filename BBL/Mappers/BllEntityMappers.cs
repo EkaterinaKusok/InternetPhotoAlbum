@@ -7,100 +7,151 @@ namespace BLL.Mappers
 {
     public static class BllEntityMappers
     {
-        public static DalUser ToDalUser(this UserEntity userEntity)
+        public static DalUser ToDalUser(this UserEntity user)
         {
             return new DalUser()
             {
-                Id = userEntity.Id,
-                Name = userEntity.UserName,
-                Password = userEntity.UserPassword,
-                RoleId = userEntity.UserRoleId,
-                Role = ToDalRole(userEntity.UserRole),
-                //Roles = userEntity.Roles.Select(ToDalRole).ToList(),
-                Photos = userEntity.Photos.Select(ToDalPhoto).ToList()
+                Id = user.Id,
+                Email = user.Email,
+                Password = user.Password,
+                CreationDate = user.CreationDate,
+                Roles = user.Roles.Select(ToDalRole).ToList()
             };
         }
 
-        public static UserEntity ToBllUser(this DalUser dalUser)
+        public static UserEntity ToBllUser(this DalUser user)
         {
             return new UserEntity()
             {
-                Id = dalUser.Id,
-                UserName = dalUser.Name,
-                UserPassword = dalUser.Password,
-                UserRoleId = dalUser.RoleId,
-                UserRole = ToBllRole(dalUser.Role),
-                //Roles = dalUser.Roles.Select(ToBllRole).ToList(),
-                Photos = dalUser.Photos.Select(ToBllPhoto).ToList()
+                Id = user.Id,
+                Email = user.Email,
+                Password = user.Password,
+                CreationDate = user.CreationDate,
+                Roles = user.Roles.Select(ToBllRole).ToList()
             };
         }
 
-        public static DalRole ToDalRole(this RoleEntity roleEntity)
+        public static DalUserProfile ToDalUserProfile(this UserProfileEntity userPr)
+        {
+            byte[] tempPhoto = null;
+            if (userPr.UserPhoto != null)
+            {
+                tempPhoto = new byte[userPr.UserPhoto.Length];
+                userPr.UserPhoto.CopyTo(tempPhoto, 0);
+            }
+            return new DalUserProfile()
+            {
+                Id = userPr.Id,
+                FirstName = userPr.FirstName,
+                LastName = userPr.LastName,
+                UserPhoto = tempPhoto,
+                DateOfBirth = userPr.DateOfBirth,
+                LastUpdateDate = userPr.LastUpdateDate,
+                Photos = userPr.Photos.Select(ToDalPhoto).ToList()
+            };
+        }
+
+        public static UserProfileEntity ToBllUserProfile(this DalUserProfile userPr)
+        {
+            byte[] tempPhoto = null;
+            if (userPr.UserPhoto != null)
+            {
+                tempPhoto = new byte[userPr.UserPhoto.Length];
+                userPr.UserPhoto.CopyTo(tempPhoto, 0);
+            }
+            return new UserProfileEntity()
+            {
+                Id = userPr.Id,
+                FirstName = userPr.FirstName,
+                LastName = userPr.LastName,
+                UserPhoto = tempPhoto,
+                DateOfBirth = userPr.DateOfBirth,
+                LastUpdateDate = userPr.LastUpdateDate,
+                Photos = userPr.Photos.Select(ToBllPhoto).ToList()
+            };
+        }
+
+        public static DalPhoto ToDalPhoto(this PhotoEntity photo)
+        {
+            byte[] tempContent = null;
+            if (photo.Image != null)
+            {
+                tempContent = new byte[photo.Image.Length];
+                photo.Image.CopyTo(tempContent, 0);
+            }
+
+            return new DalPhoto()
+            {
+                Id = photo.Id,
+                Image = tempContent,
+                Name = photo.Name,
+                Description = photo.Description,
+                UserId = photo.UserId,
+                Ratings = photo.Ratings.Select(ToDalRating).ToList()
+            };
+        }
+
+        public static PhotoEntity ToBllPhoto(this DalPhoto photo)
+        {
+            byte[] tempContent = null;
+            if (photo.Image != null)
+            {
+                tempContent = new byte[photo.Image.Length];
+                photo.Image.CopyTo(tempContent, 0);
+            }
+
+            return new PhotoEntity()
+            {
+                Id = photo.Id,
+                Image = tempContent,
+                Name = photo.Name,
+                Description = photo.Description,
+                UserId = photo.UserId,
+                Ratings = photo.Ratings.Select(ToBllRating).ToList()
+            };
+        }
+
+        public static DalRole ToDalRole(this RoleEntity role)
         {
             return new DalRole()
             {
-                Id = roleEntity.Id,
-                Name = roleEntity.Name,
-                Description = roleEntity.Description
+                Id = role.Id,
+                Name = role.Name,
+                Description = role.Description
             };
         }
 
-        public static RoleEntity ToBllRole(this DalRole dalRole)
+        public static RoleEntity ToBllRole(this DalRole role)
         {
             return new RoleEntity()
             {
-                Id = dalRole.Id,
-                Name = dalRole.Name,
-                Description = dalRole.Description
+                Id = role.Id,
+                Name = role.Name,
+                Description = role.Description
             };
         }
 
-        public static DalPhoto ToDalPhoto(this PhotoEntity photoEntity)
+        public static DalRating ToDalRating(this RatingEntity rating)
         {
-            byte[] tempContent;
-            if (photoEntity.Content != null)
+            return new DalRating()
             {
-                tempContent = new byte[photoEntity.Content.Length];
-                photoEntity.Content.CopyTo(tempContent, 0);
-            }
-            else tempContent = null;
-            return new DalPhoto()
-            {
-                Id = photoEntity.Id,
-                Name = photoEntity.PhotoName,
-                Description = photoEntity.Description,
-                Content = tempContent,
-                UserId = photoEntity.UserId
+                Id = rating.Id,
+                UserRating = rating.UserRating,
+                FromUserId = rating.FromUserId,
+                PhotoId = rating.PhotoId
             };
         }
 
-        public static PhotoEntity ToBllPhoto(this DalPhoto dalPhoto)
+        public static RatingEntity ToBllRating(this DalRating rating)
         {
-            byte[] tempContent;
-            if (dalPhoto.Content != null)
+            return new RatingEntity()
             {
-                tempContent = new byte[dalPhoto.Content.Length];
-                dalPhoto.Content.CopyTo(tempContent, 0);
-            }
-            else tempContent = null;
-            return new PhotoEntity()
-            {
-                Id = dalPhoto.Id,
-                PhotoName = dalPhoto.Name,
-                Description = dalPhoto.Description,
-                Content = tempContent,
-                UserId = dalPhoto.UserId
+                Id = rating.Id,
+                UserRating = rating.UserRating,
+                FromUserId = rating.FromUserId,
+                PhotoId = rating.PhotoId
             };
         }
 
-        //public static ICollection<PhotoEntity> ToBllPhotos(this ICollection<DalPhoto> dalPhotos)
-        //{
-        //    ICollection<PhotoEntity> bllPhotos = new List<PhotoEntity>();
-        //    foreach (var dalPhoto in dalPhotos)
-        //    {
-        //        bllPhotos.Add(ToBllPhoto(dalPhoto));
-        //    }
-        //    return bllPhotos;
-        //}
     }
 }

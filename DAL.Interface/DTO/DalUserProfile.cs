@@ -11,11 +11,11 @@ namespace DAL.Interfacies.DTO
         public byte[] UserPhoto { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime LastUpdateDate { get; set; }
-        public virtual ICollection<DalPhoto> Photos { get; set; }
+        //public virtual ICollection<DalPhoto> Photos { get; set; }
 
-        public DalUserProfile()
-        {
-            Photos = new List<DalPhoto>();
-        }
+        //public DalUserProfile()
+        //{
+        //    Photos = new List<DalPhoto>();
+        //}
     }
 }

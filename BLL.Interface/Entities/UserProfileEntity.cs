@@ -11,11 +11,11 @@ namespace BLL.Interfacies.Entities
         public byte[] UserPhoto { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime LastUpdateDate { get; set; }
-        public virtual ICollection<PhotoEntity> Photos { get; set; }
+        //public virtual ICollection<PhotoEntity> Photos { get; set; }
 
-        public UserProfileEntity()
-        {
-            Photos = new List<PhotoEntity>();
-        }
+        //public UserProfileEntity()
+        //{
+        //    Photos = new List<PhotoEntity>();
+        //}
     }
 }

@@ -21,7 +21,12 @@ namespace BLL.Services
 
         public UserEntity GetUserEntityById(int id)
         {
-            return userRepository.GetById(id).ToBllUser();
+            return userRepository.GetById(id)?.ToBllUser();
+        }
+
+        public UserEntity GetUserEntityByEmail(string email)
+        {
+            return userRepository.GetUserByEmail(email).ToBllUser();
         }
 
         public IEnumerable<UserEntity> GetAllUserEntities()

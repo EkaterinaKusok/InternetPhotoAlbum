@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using BLL.Mappers;
-using DAL.Interfacies.DTO;
 using DAL.Interfacies.Repository;
 
 namespace BLL.Services
@@ -12,9 +10,9 @@ namespace BLL.Services
     public class UserProfileService: IUserProfileService
     {
         private readonly IUnitOfWork uow;
-        private readonly IRepository<DalUserProfile> profileRepository;
+        private readonly IUserProfileRepository profileRepository;
 
-        public UserProfileService(IUnitOfWork uow, IRepository<DalUserProfile> repository)
+        public UserProfileService(IUnitOfWork uow, IUserProfileRepository repository)
         {
             this.uow = uow;
             this.profileRepository = repository;
@@ -22,7 +20,7 @@ namespace BLL.Services
 
         public UserProfileEntity GetUserProfileEntityById(int id)
         {
-            return profileRepository.GetById(id).ToBllUserProfile();
+            return profileRepository.GetById(id)?.ToBllUserProfile();
         }
 
         public IEnumerable<UserProfileEntity> GetAllUserProfileEntities()

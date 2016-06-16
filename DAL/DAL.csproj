@@ -49,13 +49,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Concrete\DalMappers.cs" />
-    <Compile Include="Concrete\PhotoRepository.cs" />
-    <Compile Include="Concrete\RatingRepository.cs" />
-    <Compile Include="Concrete\RoleRepository.cs" />
-    <Compile Include="Concrete\UnitOfWork.cs" />
-    <Compile Include="Concrete\UserProfileRepository.cs" />
-    <Compile Include="Concrete\UserRepository.cs" />
+    <Compile Include="Mappers\DalPhotoMapper.cs" />
+    <Compile Include="Mappers\DalRatingMapper.cs" />
+    <Compile Include="Mappers\DalRoleMapper.cs" />
+    <Compile Include="Mappers\DalUserMapper.cs" />
+    <Compile Include="Mappers\DalUserProfileMapper.cs" />
+    <Compile Include="Repositories\PhotoRepository.cs" />
+    <Compile Include="Repositories\RatingRepository.cs" />
+    <Compile Include="Repositories\RoleRepository.cs" />
+    <Compile Include="Repositories\UnitOfWork.cs" />
+    <Compile Include="Repositories\UserProfileRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

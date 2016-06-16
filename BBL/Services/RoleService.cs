@@ -3,7 +3,6 @@ using System.Linq;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using BLL.Mappers;
-using DAL.Interfacies.DTO;
 using DAL.Interfacies.Repository;
 
 namespace BLL.Services
@@ -11,9 +10,9 @@ namespace BLL.Services
     public class RoleService: IRoleService
     {
         private readonly IUnitOfWork uow;
-        private readonly IRepository<DalRole> roleRepository;
+        private readonly IRoleRepository roleRepository;
 
-        public RoleService(IUnitOfWork uow, IRepository<DalRole> repository)
+        public RoleService(IUnitOfWork uow, IRoleRepository repository)
         {
             this.uow = uow;
             this.roleRepository = repository;
@@ -21,7 +20,17 @@ namespace BLL.Services
 
         public RoleEntity GetRoleEntityById(int id)
         {
-            return roleRepository.GetById(id).ToBllRole();
+            return roleRepository.GetById(id)?.ToBllRole();
+        }
+
+        public void AddUserToRole(int userId, string roleName)
+        {
+            roleRepository.AddUserToRole(userId, roleName);
+        }
+
+        public IEnumerable<RoleEntity> GetUserRoles(int userId)
+        {
+            return roleRepository.GetUserRoles(userId).Select(role => role.ToBllRole());
         }
 
         public IEnumerable<RoleEntity> GetAllRoleEntities()

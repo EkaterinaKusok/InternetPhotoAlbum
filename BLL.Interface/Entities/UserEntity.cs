@@ -9,10 +9,10 @@ namespace BLL.Interfacies.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public DateTime CreationDate { get; set; }
-        public virtual ICollection<RoleEntity> Roles { get; set; }
-        public UserEntity()
-        {
-            Roles = new List<RoleEntity>();
-        }
+        //public virtual ICollection<RoleEntity> Roles { get; set; }
+        //public UserEntity()
+        //{
+        //    Roles = new List<RoleEntity>();
+        //}
     }
 }

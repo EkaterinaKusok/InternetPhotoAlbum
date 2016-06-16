@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace DAL.Interfacies.DTO
 {
@@ -8,11 +8,13 @@ namespace DAL.Interfacies.DTO
         public byte[] Image { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int TotalRating { get; set; }
+        public DateTime CreationDate { get; set; }
         public int UserId { get; set; }
-        public virtual ICollection<DalRating> Ratings { get; set; }
-        public DalPhoto()
-        {
-            Ratings = new List<DalRating>();
-        }
+        //public virtual ICollection<DalRating> Ratings { get; set; }
+        //public DalPhoto()
+        //{
+        //    Ratings = new List<DalRating>();
+        //}
     }
 }

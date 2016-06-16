@@ -12,6 +12,9 @@
         public byte[] Image { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int TotalRating { get; set; }
+        public DateTime CreationDate { get; set; }
+
         public int UserProfileId { get; set; }
         public virtual UserProfile UserProfile { get; set; }
 

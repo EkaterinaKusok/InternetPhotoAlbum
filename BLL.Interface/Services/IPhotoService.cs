@@ -7,6 +7,8 @@ namespace BLL.Interfacies.Services
     {
         PhotoEntity GetPhotoEntityById(int id);
         IEnumerable<PhotoEntity> GetAllPhotoEntities();
+        IEnumerable<PhotoEntity> GetUserPhotos(int userId);
+        void SetTotalRating(int photoId, int totalRating);
         void CreatePhoto(PhotoEntity photo);
         void DeletePhoto(PhotoEntity photo);
         void UpdatePhoto(PhotoEntity photo);

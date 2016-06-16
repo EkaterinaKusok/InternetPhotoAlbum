@@ -65,9 +65,9 @@
       <Project>{236d5756-bdf9-4cf1-ab81-8cc36eb3bb70}</Project>
       <Name>BLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BLL.Interface\BLL.Interface.csproj">
+    <ProjectReference Include="..\BLL.Interface\BLL.Interfacies.csproj">
       <Project>{dcc838d1-ccad-4f1e-ba8f-85eda59518c3}</Project>
-      <Name>BLL.Interface</Name>
+      <Name>BLL.Interfacies</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL.Interface\DAL.Interfacies.csproj">
       <Project>{fe224ba2-e6cb-4753-82f1-74813450b0a3}</Project>

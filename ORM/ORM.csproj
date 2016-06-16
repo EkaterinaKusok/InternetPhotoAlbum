@@ -49,7 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntityModel.cs" />
+    <Compile Include="Migrations\201606152117511_SmallCanges.cs" />
+    <Compile Include="Migrations\201606152117511_SmallCanges.Designer.cs">
+      <DependentUpon>201606152117511_SmallCanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606160338166_SmallChange2.cs" />
+    <Compile Include="Migrations\201606160338166_SmallChange2.Designer.cs">
+      <DependentUpon>201606160338166_SmallChange2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhotoAlbumDbContext.cs" />
     <Compile Include="Migrations\201606012339106_CreateTables.cs" />
     <Compile Include="Migrations\201606012339106_CreateTables.Designer.cs">
       <DependentUpon>201606012339106_CreateTables.cs</DependentUpon>
@@ -101,9 +109,17 @@
     <EmbeddedResource Include="Migrations\201606121649123_NewScheme.resx">
       <DependentUpon>201606121649123_NewScheme.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606152117511_SmallCanges.resx">
+      <DependentUpon>201606152117511_SmallCanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606160338166_SmallChange2.resx">
+      <DependentUpon>201606160338166_SmallChange2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

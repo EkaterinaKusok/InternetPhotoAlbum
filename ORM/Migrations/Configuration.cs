@@ -5,14 +5,14 @@ namespace ORM.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ORM.EntityModel>
+    internal sealed class Configuration : DbMigrationsConfiguration<ORM.PhotoAlbumDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(ORM.EntityModel context)
+        protected override void Seed(ORM.PhotoAlbumDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

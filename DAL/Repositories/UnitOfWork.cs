@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Diagnostics;
 using DAL.Interfacies.Repository;
 
-namespace DAL.Concrete
+namespace DAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

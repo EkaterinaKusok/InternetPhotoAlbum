@@ -1,9 +1,8 @@
 ﻿using System.Data.Entity;
 using BLL.Interfacies.Services;
 using BLL.Services;
-using DAL.Concrete;
-using DAL.Interfacies.DTO;
 using DAL.Interfacies.Repository;
+using DAL.Repositories;
 using Ninject;
 using Ninject.Web.Common; 
 using ORM;
@@ -27,12 +26,12 @@ namespace DependencyResolver
             if (isWeb)
             {
                 kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
-                kernel.Bind<DbContext>().To<EntityModel>().InRequestScope();
+                kernel.Bind<DbContext>().To<PhotoAlbumDbContext>().InRequestScope();
             }
             else
             {
                 kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InSingletonScope();
-                kernel.Bind<DbContext>().To<EntityModel>().InSingletonScope();
+                kernel.Bind<DbContext>().To<PhotoAlbumDbContext>().InSingletonScope();
             }
 
             kernel.Bind<IUserService>().To<UserService>();
@@ -43,9 +42,9 @@ namespace DependencyResolver
 
             kernel.Bind<IUserRepository>().To<UserRepository>();
             kernel.Bind<IPhotoRepository>().To<PhotoRepository>();
-            kernel.Bind<IRepository<DalRole> >().To<RoleRepository>();
-            kernel.Bind<IRepository<DalRating> >().To<RatingRepository>();
-            kernel.Bind<IRepository<DalUserProfile> >().To<UserProfileRepository>();
+            kernel.Bind<IRoleRepository>().To<RoleRepository>();
+            kernel.Bind<IRatingRepository>().To<RatingRepository>();
+            kernel.Bind<IUserProfileRepository>().To<UserProfileRepository>();
         }
     }
 }

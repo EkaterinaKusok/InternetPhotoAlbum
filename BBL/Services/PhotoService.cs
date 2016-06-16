@@ -21,12 +21,23 @@ namespace BLL.Services
 
         public PhotoEntity GetPhotoEntityById(int id)
         {
-            return photoRepository.GetById(id).ToBllPhoto();
+            return photoRepository.GetById(id)?.ToBllPhoto();
         }
 
         public IEnumerable<PhotoEntity> GetAllPhotoEntities()
         {
             return photoRepository.GetAll().Select(photo => photo.ToBllPhoto());
+        }
+
+        public IEnumerable<PhotoEntity> GetUserPhotos(int userId)
+        {
+            return photoRepository.GetUserPhotos(userId).Select(photo => photo.ToBllPhoto());
+        }
+
+        public void SetTotalRating(int photoId, int totalRating)
+        {
+            photoRepository.SetTotalRating(photoId,totalRating);
+            uow.Commit();
         }
 
         public void CreatePhoto(PhotoEntity photo)

@@ -1,7 +1,11 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "Home Page";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<hr />
+
+<div class="row">
+    <span class="panel-body">Authentication type: @ViewBag.AuthType</span>
+    <span class="panel-body">Your login: @ViewBag.Login</span>
+    <span class="panel-body">@ViewBag.IsAdminInRole</span>  
+</div>

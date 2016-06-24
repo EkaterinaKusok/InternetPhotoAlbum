@@ -5,6 +5,8 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Providers.Entities;
 using System.Web.Security;
+using BLL.Interfacies.Entities;
+using BLL.Interfacies.Infrastructure;
 using BLL.Interfacies.Services;
 using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
@@ -15,6 +17,9 @@ namespace MvcPL.Providers
     {
         public IUserService UserService
             => (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
+
+        public IUserProfileService UserProfileService
+            => (IUserProfileService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserProfileService));
 
         public IRoleService RoleService
             => (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
@@ -39,6 +44,11 @@ namespace MvcPL.Providers
             UserService.CreateUser(user.ToBllUser());
             user = UserService.GetUserEntityByEmail(email).ToMvcUser();
             RoleService.AddUserToRole(user.Id, "User");
+            UserProfileService.CreateUserProfile(new UserProfileEntity()
+            {
+                Id = user.Id,
+                LastUpdateDate = DateTime.Now
+            });
             
             membershipUser = GetUser(email, false);
             return membershipUser;
@@ -46,9 +56,13 @@ namespace MvcPL.Providers
 
         public override bool ValidateUser(string email, string password)
         {
-            var user = UserService.GetUserEntityByEmail(email).ToMvcUser();
-
-            if (user != null && Crypto.VerifyHashedPassword(user.Password, password))
+            UserModel user = new UserModel();
+            try
+            {
+                user = UserService.GetUserEntityByEmail(email).ToMvcUser();
+            }
+            catch (ValidationException ex) { return false; }
+            if (Crypto.VerifyHashedPassword(user.Password, password))
             //Определяет, соответствуют ли заданный хэш RFC 2898 и пароль друг другу
             {
                 return true;
@@ -58,9 +72,12 @@ namespace MvcPL.Providers
 
         public override MembershipUser GetUser(string email, bool userIsOnline)
         {
-            var user = UserService.GetUserEntityByEmail(email).ToMvcUser();
-
-            if (user == null) return null;
+            UserModel user= new UserModel();
+            try
+            {
+                user = UserService.GetUserEntityByEmail(email).ToMvcUser();
+            }
+            catch(ValidationException ex) { return null; }
 
             var memberUser = new MembershipUser("CustomMembershipProvider", user.Email,
                 null, null, null, null,

@@ -11,5 +11,7 @@ namespace MvcPL.Models
         public int UserRating { get; set; }
         public int? FromUserId { get; set; }
         public int PhotoId { get; set; }
+
+        public UserModel User { get; set; }
     }
 }

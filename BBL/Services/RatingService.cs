@@ -35,7 +35,7 @@ namespace BLL.Services
 
         public IEnumerable<RatingEntity> GetPhotoRatings(int photoId)
         {
-            return ratingRepository.GetPhotoRatings(photoId).Select(rating => rating.ToBllRating());
+            return ratingRepository.GetPhotoRatings(photoId)?.Select(rating => rating.ToBllRating());
         }
 
         public void CreateRating(RatingEntity rating)

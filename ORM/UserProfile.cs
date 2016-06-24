@@ -14,8 +14,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public byte[] UserPhoto { get; set; }
-        //public int Age { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public DateTime LastUpdateDate { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }

@@ -22,7 +22,7 @@ namespace DAL.Repositories
 
         public IEnumerable<DalRating> GetAll()
         {
-            return context.Set<Rating>().AsEnumerable().Select(r => r.ToDalRating());
+            return context.Set<Rating>().Select(r=>r).ToList().Select(r => r.ToDalRating());
         }
 
         public DalRating GetById(int key)
@@ -62,7 +62,7 @@ namespace DAL.Repositories
 
         public IEnumerable<DalRating> GetPhotoRatings(int photoId)
         {
-            return context.Set<Photo>().FirstOrDefault(photo => photo.Id == photoId)?.Ratings.Select(rating => rating.ToDalRating());
+            return context.Set<Photo>().FirstOrDefault(photo => photo.Id == photoId)?.Ratings.Select(rating => rating.ToDalRating()).ToList();
         }
 
         public int CountTotalRating(int photoId)

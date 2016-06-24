@@ -57,6 +57,10 @@
     <Compile Include="Migrations\201606160338166_SmallChange2.Designer.cs">
       <DependentUpon>201606160338166_SmallChange2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606161015226_SmallChange3.cs" />
+    <Compile Include="Migrations\201606161015226_SmallChange3.Designer.cs">
+      <DependentUpon>201606161015226_SmallChange3.cs</DependentUpon>
+    </Compile>
     <Compile Include="PhotoAlbumDbContext.cs" />
     <Compile Include="Migrations\201606012339106_CreateTables.cs" />
     <Compile Include="Migrations\201606012339106_CreateTables.Designer.cs">
@@ -114,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606160338166_SmallChange2.resx">
       <DependentUpon>201606160338166_SmallChange2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606161015226_SmallChange3.resx">
+      <DependentUpon>201606161015226_SmallChange3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

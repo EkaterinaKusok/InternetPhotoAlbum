@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using DAL.Interfacies.Repository;
 
 namespace DAL.Repositories
@@ -17,7 +18,15 @@ namespace DAL.Repositories
         {
             if (Context != null)
             {
-                Context.SaveChanges();
+                try
+                {
+                    Context.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    Console.WriteLine(ex.EntityValidationErrors.ToString());
+                    throw new DbEntityValidationException("",ex);
+                }
             }
         }
 

@@ -22,7 +22,7 @@ namespace DAL.Repositories
 
         public IEnumerable<DalPhoto> GetAll()
         {
-            return context.Set<Photo>().AsEnumerable().Select(photo => photo.ToDalPhoto());
+            return context.Set<Photo>().Select(ph=>ph).ToList().Select(photo => photo.ToDalPhoto());
         }
 
         public DalPhoto GetById(int key)
@@ -43,7 +43,7 @@ namespace DAL.Repositories
         public void Delete(DalPhoto dalPhoto)
         {
             Photo photo = context.Set<Photo>().FirstOrDefault(ph => ph.Id == dalPhoto.Id); 
-            context.Set<Photo>().Remove(photo); ;
+            context.Set<Photo>().Remove(photo); 
         }
 
         public void Update(DalPhoto dalPhoto)
@@ -63,7 +63,7 @@ namespace DAL.Repositories
 
         public IEnumerable<DalPhoto> GetUserPhotos(int userId)
         {
-            return context.Set<UserProfile>().FirstOrDefault(u => u.Id == userId)?.Photos.ToDalPhotos();
+            return context.Set<UserProfile>().FirstOrDefault(u => u.Id == userId)?.Photos.ToList().ToDalPhotos();
         }
 
         public void SetTotalRating(int photoId, int totalRating)

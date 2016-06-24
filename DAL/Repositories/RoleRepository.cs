@@ -22,7 +22,7 @@ namespace DAL.Repositories
 
         public IEnumerable<DalRole> GetAll()
         {
-            return context.Set<Role>().AsEnumerable().Select(role => role.ToDalRole());
+            return context.Set<Role>().Select(r=>r).ToList().Select(role => role.ToDalRole());
         }
 
         public DalRole GetById(int key)
@@ -72,7 +72,7 @@ namespace DAL.Repositories
 
         public IEnumerable<DalRole> GetUserRoles(int userId)
         {
-            return context.Set<User>().FirstOrDefault(user => user.Id == userId)?.Roles.ToDalRoles();
+            return context.Set<User>().FirstOrDefault(user => user.Id == userId)?.Roles.Select(r=>r.ToDalRole()).ToList();
         }
     }
 }

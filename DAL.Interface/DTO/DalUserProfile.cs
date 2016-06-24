@@ -9,7 +9,7 @@ namespace DAL.Interfacies.DTO
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public byte[] UserPhoto { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public DateTime LastUpdateDate { get; set; }
         //public virtual ICollection<DalPhoto> Photos { get; set; }
 

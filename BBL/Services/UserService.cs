@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using BLL.Interfacies.Entities;
+using BLL.Interfacies.Infrastructure;
 using BLL.Interfacies.Services;
 using BLL.Mappers;
 using DAL.Interfacies.Repository;
@@ -21,12 +22,18 @@ namespace BLL.Services
 
         public UserEntity GetUserEntityById(int id)
         {
-            return userRepository.GetById(id)?.ToBllUser();
+            var user = userRepository.GetById(id);
+            if (user == null)
+                throw new ValidationException("User with the given ID isn't found.", "");
+            return user.ToBllUser();
         }
 
         public UserEntity GetUserEntityByEmail(string email)
         {
-            return userRepository.GetUserByEmail(email).ToBllUser();
+            var user = userRepository.GetUserByEmail(email);
+            if (user == null)
+                throw new ValidationException("User with the given e-mail isn't found.", "");
+            return user.ToBllUser();
         }
 
         public IEnumerable<UserEntity> GetAllUserEntities()

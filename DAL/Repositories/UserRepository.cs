@@ -25,7 +25,7 @@ namespace DAL.Repositories
         {
             //var users = context.Set<User>().Select(user => user).ToList();
             //return users.Select(user => user.ToDalUser());
-            return context.Set<User>().AsEnumerable().Select(user => user.ToDalUser());
+            return context.Set<User>().Select(user => user).ToList().Select(user => user.ToDalUser());
         }
 
         public DalUser GetById(int key)

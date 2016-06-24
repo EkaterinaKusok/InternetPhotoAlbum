@@ -22,7 +22,7 @@ namespace DAL.Repositories
 
         public IEnumerable<DalUserProfile> GetAll()
         {
-            return context.Set<UserProfile>().AsEnumerable().Select(pr => pr.ToDalUserProfile());
+            return context.Set<UserProfile>().Select(p=>p).ToList().Select(pr => pr.ToDalUserProfile());
         }
 
         public DalUserProfile GetById(int key)
@@ -53,11 +53,13 @@ namespace DAL.Repositories
             UserProfile oldUserProfile = context.Set<UserProfile>().FirstOrDefault(pr => pr.Id == dalProfile.Id);
             if (oldUserProfile != null)
             {
+                //oldUserProfile = dalProfile.ToOrmUserProfile();
+                oldUserProfile.Id = dalProfile.Id;
                 oldUserProfile.FirstName = dalProfile.FirstName;
                 oldUserProfile.LastName = dalProfile.LastName;
                 oldUserProfile.UserPhoto = dalProfile.UserPhoto;
                 oldUserProfile.DateOfBirth = dalProfile.DateOfBirth;
-                oldUserProfile.LastUpdateDate = DateTime.Now;
+                oldUserProfile.LastUpdateDate = dalProfile.LastUpdateDate;
             }
             else
                 context.Set<UserProfile>().Add(dalProfile.ToOrmUserProfile());

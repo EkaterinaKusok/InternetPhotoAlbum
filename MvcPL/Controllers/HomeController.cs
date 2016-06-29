@@ -133,7 +133,7 @@ namespace MvcPL.Controllers
         
         private PhotosViewModel GetCurrentPhotosModel(UserModel user, int page)
         {
-            int pageSize = 4;
+            int pageSize = 8;
             var photos = photoService.GetUserPhotos(user.Id).Select(ph => ph.ToMvcPhoto())
                 .OrderByDescending(ph => ph.CreationDate);
             int totalItems = photos.Count();

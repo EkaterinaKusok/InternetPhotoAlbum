@@ -5,7 +5,7 @@
 {
     var fullBase64 = Convert.ToBase64String(item.Image);
     var fullImgSrc = String.Format("data:image/gif;base64,{0}", fullBase64);
-    <div style="width: 200px; display: inline-block; border: 1px dashed red">
+    <div style="width: 200px; display: inline-block; border: 1px solid lavender">
 
         <div class="photo" data-title=@item.Name style="text-align: center">
             <a href="@fullImgSrc" class="gallery-link" data-gallery>
@@ -13,90 +13,91 @@
             </a>
         </div>
 
-    <div style="padding: 0px 5px; text-align: center">
-        <h6>
-            @if (String.Compare(item.User.Email, User.Identity.Name, true) == 0)
-            {
-                <a href="@Url.Action("Edit", "Photo", new {photoName = item.Name, id = item.Id})" title="Edit photo">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </a>
-                <a href="@Url.Action("Delete", "Photo", new {photoName = item.Name, id = item.Id})" title="Delete photo">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </a>
-            }
-            @item.CreationDate.ToShortDateString()
-            <a href="@Url.Action("Index", "Home", new {id = item.UserId})" title="UserProfile">
-                <span class="glyphicon glyphicon-user"></span>
-            </a>
-        </h6>
-            <br />
-            <a class="btn btn-sm btn-default" style="margin-bottom: 5px" id=@String.Concat(item.Id.ToString(), "Like") onclick="changeStyleLike(@item.Id.ToString())">
-                <span class="glyphicon glyphicon-thumbs-up"></span> Like
-            </a>
-            <script type="text/javascript">
-                function changeStyleLike(id) {
-                    var like = document.getElementById(id + 'Like');
-                    var dislike = document.getElementById(id + 'Dislike');
-                    if (like.className === 'btn btn-sm btn-default') {
-                        @{
-                            Html.RenderAction("AddOrUpdateRating", "Rating", new
-                            {
-                                userName = User.Identity.Name,
-                                photoId = item.Id,
-                                rating = 1
-                            });
-                        }
-                        like.className = 'btn btn-sm btn-success';
-                        if (dislike.className === 'btn btn-sm btn-danger') {
-                            dislike.className = 'btn btn-sm btn-default';
-                        }
-                    } else {
-                        like.className = 'btn btn-sm btn-default';
-                        @{
-                            Html.RenderAction("DeleteRating", "Rating", new
-                            {
-                                userName = User.Identity.Name,
-                                photoId = item.Id,
-                                rating = 1
-                            });
-                        }
-                    }
+        <div style="padding: 0px 5px; text-align: center">
+            <h6>
+                @if (String.Compare(item.User.Email, User.Identity.Name, true) == 0)
+                {
+                    <a href="@Url.Action("Edit", "Photo", new {photoName = item.Name, id = item.Id})" title="Edit photo">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a href="@Url.Action("Delete", "Photo", new {photoName = item.Name, id = item.Id})" title="Delete photo">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
                 }
-            </script>
-
-            <a class="btn btn-sm btn-default" style="margin-bottom: 5px" id=@String.Concat(item.Id.ToString(), "Dislike") onclick="changeStyleDislike(@item.Id.ToString())">
-                <span class="glyphicon glyphicon-thumbs-down"></span> Dislike
-            </a>
-            <script type="text/javascript">
-                function changeStyleDislike(id) {
-                    var like = document.getElementById(id + 'Like');
-                    var dislike = document.getElementById(id + 'Dislike');
-                    if (dislike.className === 'btn btn-sm btn-default') {
-                        dislike.className = 'btn btn-sm btn-danger';
-                        @{
-                            Html.RenderAction("AddOrUpdateRating", "Rating", new
-                            {
-                                userName = User.Identity.Name,
-                                photoId = item.Id,
-                                rating = -1
-                            });
-                        }
-                        if (like.className === 'btn btn-sm btn-success') {
+                @item.CreationDate.ToShortDateString()
+                <a href="@Url.Action("Index", "Home", new {id = item.UserId})" title="UserProfile">
+                    <span class="glyphicon glyphicon-user"></span>
+                </a>
+            </h6>
+            <div>
+                <a class="btn btn-sm btn-default" style="margin-bottom: 5px" id=@String.Concat(item.Id.ToString(), "Like") onclick="changeStyleLike(@item.Id.ToString())">
+                    <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                </a>
+                <script type="text/javascript">
+                    function changeStyleLike(id) {
+                        var like = document.getElementById(id + 'Like');
+                        var dislike = document.getElementById(id + 'Dislike');
+                        if (like.className === 'btn btn-sm btn-default') {
+                            @{
+                                Html.RenderAction("AddOrUpdateRating", "Rating", new
+                                {
+                                    userName = User.Identity.Name,
+                                    photoId = item.Id,
+                                    rating = 1
+                                });
+                            }
+                            like.className = 'btn btn-sm btn-success';
+                            if (dislike.className === 'btn btn-sm btn-danger') {
+                                dislike.className = 'btn btn-sm btn-default';
+                            }
+                        } else {
                             like.className = 'btn btn-sm btn-default';
-                        }
-                    } else {
-                        dislike.className = 'btn btn-sm btn-default';
-                        @{
-                            Html.RenderAction("DeleteRating", "Rating", new
-                            {
-                                userName = User.Identity.Name,
-                                photoId = item.Id,
-                                rating = -1
-                            });
+                            @{
+                                Html.RenderAction("DeleteRating", "Rating", new
+                                {
+                                    userName = User.Identity.Name,
+                                    photoId = item.Id,
+                                    rating = 1
+                                });
+                            }
                         }
                     }
-                }
-            </script>
+                </script>
+
+                <a class="btn btn-sm btn-default" style="margin-bottom: 5px" id=@String.Concat(item.Id.ToString(), "Dislike") onclick="changeStyleDislike(@item.Id.ToString())">
+                    <span class="glyphicon glyphicon-thumbs-down"></span> Dislike
+                </a>
+                <script type="text/javascript">
+                    function changeStyleDislike(id) {
+                        var like = document.getElementById(id + 'Like');
+                        var dislike = document.getElementById(id + 'Dislike');
+                        if (dislike.className === 'btn btn-sm btn-default') {
+                            dislike.className = 'btn btn-sm btn-danger';
+                            @{
+                                Html.RenderAction("AddOrUpdateRating", "Rating", new
+                                {
+                                    userName = User.Identity.Name,
+                                    photoId = item.Id,
+                                    rating = -1
+                                });
+                            }
+                            if (like.className === 'btn btn-sm btn-success') {
+                                like.className = 'btn btn-sm btn-default';
+                            }
+                        } else {
+                            dislike.className = 'btn btn-sm btn-default';
+                            @{
+                                Html.RenderAction("DeleteRating", "Rating", new
+                                {
+                                    userName = User.Identity.Name,
+                                    photoId = item.Id,
+                                    rating = -1
+                                });
+                            }
+                        }
+                    }
+                </script>
+            </div>
         </div>
     </div>
     }

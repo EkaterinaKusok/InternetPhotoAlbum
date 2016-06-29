@@ -24,8 +24,6 @@ namespace MvcPL.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            //var type = HttpContext.User.GetType();
-            //var iden = HttpContext.User.Identity.GetType();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }

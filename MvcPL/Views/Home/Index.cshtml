@@ -3,7 +3,7 @@
     ViewBag.Title = "User Page";
 }
 
-<div class="col-md-3"  style="border: 1px dashed blue">
+<div class="col-md-3"  style="border: 1px outset darkblue">
     <br/>
     @if (String.Compare(Model.User.Email, User.Identity.Name,true) == 0)
     {
@@ -43,7 +43,7 @@
         Html.RenderPartial("UserProfile", Model.Profile);
     }
 </div>
-<div class="col-md-9" style="border: 1px dashed blue">
+<div class="col-md-9">
     @{
         //Html.RenderAction("GetPhotos", "Photo", new {userName=Model.User.Email});
     }

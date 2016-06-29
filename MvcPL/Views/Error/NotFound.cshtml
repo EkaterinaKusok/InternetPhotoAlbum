@@ -66,21 +66,22 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <h1>Not found <span>:(</span></h1>
-            <p>Sorry, but the page you were trying to view does not exist.</p>
-            <p>It looks like this was the result of either:</p>
-            <ul>
-                <li>a mistyped address</li>
-                <li>an out-of-date link</li>
-            </ul>
-            <br/>
-            <p>
-                @Html.ActionLink("Return to home page", "Index", "Home")
-            </p>
-        </div>
+<br/>
+<div class="container">
+    <div class="row">
+        <h1>Not found <span>:(</span></h1>
+        <p>Sorry, but the page you were trying to view does not exist.</p>
+        <p>It looks like this was the result of either:</p>
+        <ul>
+            <li>a mistyped address</li>
+            <li>an out-of-date link</li>
+        </ul>
+        <br/>
+        <p>
+            <a href="/Home/Index">Return to home page</a>
+        </p>
     </div>
+</div>
 </body>
 </html>
 

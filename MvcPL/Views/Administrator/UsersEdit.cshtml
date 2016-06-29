@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MvcPL.Models.ViewModels.UserViewModel>
+@using MvcPL.Infrastructure.Helpers
+
+@{
+    ViewBag.Title = "Edit users";
+}
+<h2>All users</h2>
+<h5>@Html.ActionLink("Back to profile", "Index", "Home")</h5>
+<hr />
+<div>
+    @ShowUsers(Model)
+</div>
+
+
+@helper ShowUsers(IEnumerable<MvcPL.Models.ViewModels.UserViewModel> users)
+{
+if (users != null)
+ {
+     foreach (var user in users)
+      {
+          <div class="row">
+              <a href='/Home/Index/@user.User.Id'>
+                  <div class="col-md-2">
+                      @Html.OutputSmallUserAvatar(user.Profile.UserPhoto)
+                  </div>
+                  <div class="col-md-5">
+                      <h4>@user.Profile.FirstName @user.Profile.LastName</h4>
+                      @Html.OutputDateTime(user.Profile.DateOfBirth)
+                  </div>
+              </a>
+              <div class="col-md-2">
+                  <p>@user.User.CreationDate.ToShortDateString()</p>
+              </div>
+              <div class="col-md-3">
+                  @Html.ActionLink("Edit", "EditUser", new {id = user.User.Id}) |
+                  @Html.ActionLink("Delete", "DeleteUser", new {id = user.User.Id})
+              </div>
+          </div>
+          <br/>
+      }
+ }
+}
+

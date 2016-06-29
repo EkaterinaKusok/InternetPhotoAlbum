@@ -1,61 +1,164 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using BLL.Interfacies.Services;
-using MvcPL.ViewModels;
+using BLL.Interfacies.Infrastructure;
+using MvcPL.Infrastructure.Mappers;
+using MvcPL.Models;
+using MvcPL.Models.ViewModels;
+
 
 namespace MvcPL.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IUserService userService;
+        private readonly IPhotoService photoService;
+        private readonly IRatingService ratingService;
+        private readonly IUserProfileService userProfileService;
+        private readonly IRoleService roleService;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService, IPhotoService photoService, IRatingService ratingService,
+            IUserProfileService userProfileService, IRoleService roleService)
         {
-            this._userService = userService;
+            this.userService = userService;
+            this.photoService = photoService;
+            this.ratingService = ratingService;
+            this.userProfileService = userProfileService;
+            this.roleService = roleService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int id = 0)
         {
-            var model = _userService.GetAllUserEntities().Select(u => new UserViewModel()
+            UserModel currentUser = userService.GetUserEntityByEmail(User.Identity.Name).ToMvcUser();
+            UserModel user = null;
+            if (id != 0)
             {
-                Email = u.Email,
-                CreationDate = u.CreationDate
-            });
-
-            //return System.Web.UI.WebControls.View(model);
-            return View(model);
-        }
-
-        public ActionResult About()
-        {
-            if (this.User.Identity.IsAuthenticated)
-            {
-                ViewBag.AuthType = User.Identity.AuthenticationType;
+                try
+                {
+                    user = userService.GetUserEntityById(id)?.ToMvcUser();
+                }
+                catch (ValidationException ex)
+                {
+                }
             }
-            ViewBag.Login = User.Identity.Name;
-            ViewBag.IsAdminInRole = User.IsInRole("Administrator") ?
-                "You have administrator rights." : "You do not have administrator rights.";
-
-            return View();
-            //HttpContext.Profile["FirstName"] = "Вася";
-            //HttpContext.Profile["LastName"] = "Иванов";
-            //HttpContext.Profile.SetPropertyValue("Age",23);
-            //Response.Write(HttpContext.Profile.GetPropertyValue("FirstName"));
-            //Response.Write(HttpContext.Profile.GetPropertyValue("LastName"));
+            if (user == null)
+                user = currentUser;
+            UserProfileModel profile = userProfileService.GetUserProfileEntityById(user.Id)?.ToMvcUserProfile();
+            if (profile == null)
+                RedirectToAction("NotFound", "Error");
+            IEnumerable<string> roles = roleService.GetUserRoles(user.Id)?.Select(r => r.ToMvcRole().RoleName);
+           
+            var photosModel = GetCurrentPhotosModel(user, 1);
+            UserViewModel userView = new UserViewModel(user, profile, photosModel, roles);
+            
+            return View(userView);
         }
 
-        [Authorize(Roles = "Administrator")]
-        public ActionResult UsersEdit()
+        [HttpPost]
+        public ActionResult LinksView(int userId, int page, string pageName = null)
         {
-            var model = _userService.GetAllUserEntities().Select(u => new UserViewModel()
+            UserModel user = null;
+            try
             {
-                Email = u.Email,
-                CreationDate = u.CreationDate
-            });
+                user = userService.GetUserEntityById(userId)?.ToMvcUser();
+            }
+            catch (ValidationException ex)
+            {
+                user = userService.GetUserEntityByEmail(User.Identity.Name).ToMvcUser();
+            }
+            var photosModel = GetCurrentPhotosModel(user, page);
+            
+            return PartialView("_PhotoWithLinks", photosModel);
+        }
 
-            return View(model);
-            //return System.Web.UI.WebControls.View(model);
+        [HttpGet]
+        public ActionResult UserSettings()
+        {
+            UserModel user = new UserModel();
+            try
+            {
+                user = userService.GetUserEntityByEmail(User.Identity.Name)?.ToMvcUser();
+            }
+            catch (ValidationException ex)
+            {
+                return RedirectToAction("Index");
+            }
+            UserProfileModel profile = userProfileService.GetUserProfileEntityById(user.Id)?.ToMvcUserProfile();
+            UserViewModel userViewModel = new UserViewModel(user, profile, null, null);
+            return View(userViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult UserSettings(UserViewModel viewModel, HttpPostedFileBase uploadImage, string removePhoto)
+        {
+            UserModel user = userService.GetUserEntityByEmail(User.Identity.Name)?.ToMvcUser();
+            if (user == null)
+            {
+                return RedirectToAction("Index");
+            }
+            UserProfileModel profile = userProfileService.GetUserProfileEntityById(user.Id)?.ToMvcUserProfile();
+
+            if (ModelState.IsValid)
+            {
+                profile.FirstName = viewModel.Profile.FirstName;
+                profile.LastName = viewModel.Profile.LastName;
+                profile.DateOfBirth = viewModel.Profile.DateOfBirth;
+
+                if (uploadImage != null)
+                {
+                    byte[] imageData = null;
+                    using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                    {
+                        imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                    }
+                    profile.UserPhoto = imageData;
+                }
+
+                if (removePhoto != null)
+                {
+                    profile.UserPhoto = null;
+                }
+                userService.UpdateUser(user.ToBllUser());
+                userProfileService.UpdateUserProfile(profile.ToBllUserProfile());
+
+                return RedirectToAction("Index");
+            }
+            return View(new UserViewModel(user, profile, null, null));
+        }
+        
+        private PhotosViewModel GetCurrentPhotosModel(UserModel user, int page)
+        {
+            int pageSize = 4;
+            var photos = photoService.GetUserPhotos(user.Id).Select(ph => ph.ToMvcPhoto())
+                .OrderByDescending(ph => ph.CreationDate);
+            int totalItems = photos.Count();
+            var resultPhotos = photos
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            foreach (var photo in resultPhotos)
+            {
+                //photo.User = new UserModel();
+                photo.User.Email = user.Email;
+            }
+            PageInfo pageInfo = new PageInfo
+            {
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = totalItems
+            };
+
+            return new PhotosViewModel
+            {
+                ChosenUser = user,
+                Photos = resultPhotos,
+                PageInfo = pageInfo
+            };
         }
     }
 }

@@ -8,7 +8,8 @@ using System.Web.Routing;
 using System.Configuration;
 using System.Web.Http;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-using Ninject.Web.Common;
+using MvcPL.Infrastructure;
+using Ninject;
 
 namespace MvcPL
 {
@@ -22,6 +23,9 @@ namespace MvcPL
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //var kernel = new StandardKernel();
+            //System.Web.Mvc.DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }
 }

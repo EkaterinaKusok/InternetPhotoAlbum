@@ -9,7 +9,8 @@ namespace MvcPL
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -26,6 +27,14 @@ namespace MvcPL
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/image-gallery").Include(
+                "~/Content/Bootstrap-Image-Gallery-3.4.2/css/bootstrap-image-gallery.min.css",
+                "~/Content/Bootstrap-Image-Gallery-3.4.2/css/blueimp-gallery.min.css"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/imade-gallery").Include(
+                "~/Content/Bootstrap-Image-Gallery-3.4.2/js/bootstrap-image-gallery.min.js",
+                "~/Content/Bootstrap-Image-Gallery-3.4.2/js/jquery.blueimp-gallery.min.js"));
         }
     }
 }

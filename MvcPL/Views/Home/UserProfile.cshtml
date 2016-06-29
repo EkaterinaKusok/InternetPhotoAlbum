@@ -1,0 +1,27 @@
+﻿@model MvcPL.Models.UserProfileModel
+@using MvcPL.Infrastructure.Helpers
+
+@{
+    ViewBag.Title = "User Profile";
+}
+
+<br/>
+<div class="row col-md-12" style="margin-left: 5px">
+    <div class="form-horizontal">
+        <div class="row text-center">
+            @Html.OutputUserAvatar(Model.UserPhoto)
+        </div>
+        <div class="row">
+            <div class="lead">
+                @Model.FirstName @Model.LastName
+            </div>
+        </div>
+        <div class="row">
+            Date of birth: @Html.OutputDateTime(Model.DateOfBirth)
+        </div>
+        <div class="row">
+            @Html.OutputRoleList(Model.Roles)
+        </div>
+        <br/>
+    </div>
+</div>

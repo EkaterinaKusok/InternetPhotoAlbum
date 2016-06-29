@@ -7,51 +7,43 @@ namespace MvcPL.Models.ViewModels
 {
     public class UserViewModel
     {
-        [ScaffoldColumn(false)]
-        public int Id { get; set; }
 
-        [Display(Name = "User's e-mail")]
-        public string Email { get; set; }
-        
-        [Display(Name = "User's roles in the system")]
+        public UserModel User { get; set; }
+        public UserProfileModel Profile { get; set; }
+        public PhotosViewModel Photos { get; set; }
         public IEnumerable<string> Roles { get; set; }
 
-        [Required(ErrorMessage = "The field can not be empty.")]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "The field can not be empty.")]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-        //[Required(ErrorMessage = "The field can not be empty.")]
-        [DataType(DataType.Date)]
-        [Display(Name = "Birthday")]
-        public DateTime? DateOfBirth { get; set; }
-
-        public byte[] UserPhoto { get; set; }
-
-        [Display(Name = "Date of user's registration")]
-        public DateTime CreationDate { get; set; }
-
-        public UserViewModel() { }
-
-        public UserViewModel(UserModel userModel, UserProfileModel userProfile, IEnumerable<string> userRoles)
+        public UserViewModel()
         {
-            if (userModel != null)
+            User = new UserModel();
+            Profile = new UserProfileModel();
+            Photos = new PhotosViewModel();
+            Roles = new List<string>();
+        }
+
+        public UserViewModel(UserModel userModel, UserProfileModel userProfile, PhotosViewModel photos, IEnumerable<string> userRoles)
+        {
+            User = new UserModel();
+            Profile = new UserProfileModel();
+            Photos = new PhotosViewModel();
+            Roles = new List<string>();
+            if (userModel!= null)
             {
-                this.Id = userModel.Id;
-                this.Email = userModel.Email;
-                this.CreationDate = userModel.CreationDate;
+                this.User.Id = userModel.Id;
+                this.User.Email = userModel.Email;
+                this.User.CreationDate = userModel.CreationDate;
             }
-            this.Roles = userRoles;
+            
             if (userProfile != null)
             {
-                this.FirstName = userProfile.FirstName;
-                this.LastName = userProfile.LastName;
-                this.DateOfBirth = userProfile.DateOfBirth;
-                this.UserPhoto = userProfile.UserPhoto;
+                this.Profile.FirstName = userProfile.FirstName;
+                this.Profile.LastName = userProfile.LastName;
+                this.Profile.DateOfBirth = userProfile.DateOfBirth;
+                this.Profile.UserPhoto = userProfile.UserPhoto;
+                this.Profile.Roles = userRoles;
             }
+            this.Photos = photos;
+            this.Roles = userRoles;
         }
     }
 }

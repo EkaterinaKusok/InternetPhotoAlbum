@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using BLL.Interfacies.Services;
 using MvcPL.Infrastructure;
+using MvcPL.Models.ViewModels;
 using MvcPL.Providers;
-using MvcPL.ViewModels;
 
 namespace MvcPL.Controllers
 {
@@ -27,8 +24,8 @@ namespace MvcPL.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            var type = HttpContext.User.GetType();
-            var iden = HttpContext.User.Identity.GetType();
+            //var type = HttpContext.User.GetType();
+            //var iden = HttpContext.User.Identity.GetType();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -41,10 +38,8 @@ namespace MvcPL.Controllers
             if (ModelState.IsValid)
             {
                 if (Membership.ValidateUser(viewModel.Email, viewModel.Password))
-                    //Проверяет учетные данные пользователя и управляет параметрами пользователей
                 {
                     FormsAuthentication.SetAuthCookie(viewModel.Email, viewModel.RememberMe);
-                    //Управляет службами проверки подлинности с помощью форм для веб-приложений
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -59,13 +54,13 @@ namespace MvcPL.Controllers
                     ModelState.AddModelError("", "Incorrect login or password.");
                 }
             }
+            ViewBag.returnUrl = returnUrl;
             return View(viewModel);
         }
 
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
-
             return RedirectToAction("Login", "Account");
         }
 
@@ -87,9 +82,9 @@ namespace MvcPL.Controllers
                 return View(viewModel);
             }
 
-            var anyUser = _userService.GetAllUserEntities().Any(u => u.Email.Contains(viewModel.Email));
+            var anyUser = _userService.GetUserEntityByEmail(viewModel.Email);
 
-            if (anyUser)
+            if (anyUser!=null)
             {
                 ModelState.AddModelError("", "User with this address already registered.");
                 return View(viewModel);

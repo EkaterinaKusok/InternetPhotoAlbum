@@ -8,11 +8,8 @@
         <ul class="nav navbar-nav navbar-right">
             @if (User.IsInRole("Administrator"))
             {
-                <li>@Html.ActionLink("Users edit", "UsersEdit", "Home")</li>
+                <li>@Html.ActionLink("Users edit", "UsersEdit", "Administrator")</li>
             }
-            <li>
-                @Html.ActionLink("Hello, " + User.Identity.Name + "!", "Index", "Home", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     }

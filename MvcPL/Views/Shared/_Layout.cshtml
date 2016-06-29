@@ -1,11 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Authentication Sample</title>
+    <title>@ViewBag.Title – Photo album</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/image-gallery")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -16,26 +17,45 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Authentication Sample", "About", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @if (Request.IsAuthenticated)
+                {
+                    @Html.ActionLink("My profile", "Index", "Home", new {}, new {@class = "navbar-brand"})
+                }
+                else
+                {
+                    @Html.ActionLink("Photo Album", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
+                }
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "About", "Home")</li>
+                    <li>
+                        @if (Request.IsAuthenticated)
+                        {
+                            @Html.ActionLink("All photos", "GetAll", "Photo")
+                        }
+                    </li>
                     @Html.Partial("_LoginPartial")
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Authentication Sample</p>
-        </footer>
+        <div class="row col-md-12">
+            @RenderBody()
+        </div>
+        <div class="row col-md-12 text-center container">
+            <hr style="width: 50%; color:darkgray">
+            <footer>
+                <h6> <a href="https://github.com/EkaterinaKusok/InternetPhotoAlbum">Source code </a>
+                    &copy; @DateTime.Now.Year Kusok Ekaterina
+                </h6>
+            </footer>
+        </div>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/imade-gallery")
+    @Scripts.Render("~/bundles/modernizr")
     @RenderSection("scripts", required: false)
 </body>
-</html>
+</html>  

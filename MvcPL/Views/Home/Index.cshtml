@@ -1,37 +1,53 @@
-﻿@model IEnumerable<MvcPL.ViewModels.UserViewModel>
+﻿@model MvcPL.Models.ViewModels.UserViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "User Page";
 }
 
-<h2>Registered users</h2>
-
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </th>
-        @*        <th>
-                @Html.DisplayNameFor(model => model.Role)
-            </th>*@
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+<div class="col-md-3"  style="border: 1px dashed blue">
+    <br/>
+    @if (String.Compare(Model.User.Email, User.Identity.Name,true) == 0)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            @*      <td>
-                    @Html.DisplayFor(modelItem => item.Role)
-                </td>*@
-        </tr>
+        <div class="row col-md-12 lead">
+            My profile
+        </div>
     }
-
-</table>
+    else
+    {
+        <div class="row col-md-12 lead">
+            Profile @Model.User.Email
+        </div>
+    }
+    <div class="row col-md-12 text-right">
+        @if (String.Compare(Model.User.Email, User.Identity.Name, true) == 0)
+        {
+            <a href="@Url.Action("UserSettings", "Home")">
+                <span class="glyphicon glyphicon-pencil"></span>
+                Edit my profile
+            </a>
+            <br />
+            <a href="@Url.Action("Add", "Photo")">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add new photo
+            </a>
+            <br/>
+            if (User.IsInRole("Administrator"))
+            {
+                <a href="@Url.Action("UsersEdit", "Administrator")">
+                    <span class="glyphicon glyphicon-user"></span>
+                    Edit other users
+                </a>
+            }
+        }
+    </div>
+    @{
+        Html.RenderPartial("UserProfile", Model.Profile);
+    }
+</div>
+<div class="col-md-9" style="border: 1px dashed blue">
+    @{
+        //Html.RenderAction("GetPhotos", "Photo", new {userName=Model.User.Email});
+    }
+    @{
+        Html.RenderPartial("_ShowImageGallery", Model.Photos);
+    }
+</div>

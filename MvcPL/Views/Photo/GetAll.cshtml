@@ -1,0 +1,24 @@
+﻿@model MvcPL.Models.ViewModels.PhotosViewModel
+@{
+    ViewBag.Title = "All Photos";
+}
+<br/>
+<div>
+    @using (Ajax.BeginForm("SearchPhotos", new AjaxOptions {
+        UpdateTargetId = "results",
+        LoadingElementId = "loader",
+        LoadingElementDuration = 500
+    }))
+    {
+        <input type="text" name="searchString" style="max-width: 50%; width: 250px" placeholder="Enter photos tags"/>
+        <input type="submit" value="Search" class="btn btn-sm btn-default btn-circle"/>
+    }
+    <img id="loader" src="@Url.Content("~/Content/loading.gif")" style="display:none" alt="loading..."/>
+    <div id="results">
+        @{
+            Html.RenderPartial("_ShowImageGallery", Model);
+        }
+    </div>
+</div>
+
+

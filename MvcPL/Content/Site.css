@@ -1,13 +1,14 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
+
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
@@ -22,3 +23,30 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.gallery-image {
+    padding: 5px 5px 0 5px;
+}
+
+.photo:hover::after { 
+ content: attr(data-title); 
+}
+.photo {
+    display: inline-block; /* Строчно-блочный элемент */
+    position: relative; /* Относительное позиционирование */
+   }
+    .photo:hover::after {
+        content: attr(data-title); /* Выводим текст */
+        position: absolute; /* Абсолютное позиционирование */
+        left: 0;
+        right: 0;
+        bottom: 5px; /* Положение подсказки */
+        z-index: 1; /* Отображаем подсказку поверх других элементов */
+        background: rgba(50,20,167,0.6); /* Полупрозрачный цвет фона */
+        color: #fff; /* Цвет текста */
+        text-align: center; /* Выравнивание текста по центру */
+        font-family: Arial, sans-serif; /* Гарнитура шрифта */
+        font-size: 11px; /* Размер текста подсказки */
+        padding: 5px 10px; /* Поля */
+        border: 1px solid #333; /* Параметры рамки */
+    }

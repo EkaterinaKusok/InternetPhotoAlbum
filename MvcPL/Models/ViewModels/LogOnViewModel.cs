@@ -5,8 +5,9 @@ namespace MvcPL.Models.ViewModels
     public class LogOnViewModel
     {
         [Required(ErrorMessage = "The field can not be empty!")]
-        [Display(Name = "Enter your e-mail")]
-        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный email")]
+        [RegularExpression(@"^[a-zA-Z][a-zA-Z0-9-_\.]{1,30}$",
+        ErrorMessage = "Nickname should be 2-30 characters (letters and numbers), the first symbol is letter.")]
+        [Display(Name = "Nickname")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "The field can not be empty!")]

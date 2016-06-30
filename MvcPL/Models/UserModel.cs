@@ -13,7 +13,10 @@ namespace MvcPL.Models
         //[HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
 
-        [Display(Name = "User's e-mail")]
+        
+        [RegularExpression(@"^[a-zA-Z][a-zA-Z0-9-_\.]{1,30}$",
+        ErrorMessage = "Nickname should be 2-30 characters (letters and numbers), the first symbol is letter.")]
+        [Display(Name = "Nickname")]
         public string Email { get; set; }
 
         [ScaffoldColumn(false)]
@@ -21,10 +24,5 @@ namespace MvcPL.Models
 
         [Display(Name = "Date of user's registration")]
         public DateTime CreationDate { get; set; }
-        //public virtual ICollection<RoleModel> Roles { get; set; }
-        //public UserModel()
-        //{
-        //    Roles = new List<RoleModel>();
-        //}
     }
 }

@@ -3,8 +3,11 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using BLL.Interfacies.Infrastructure;
 using BLL.Interfacies.Services;
 using MvcPL.Infrastructure;
+using MvcPL.Infrastructure.Mappers;
+using MvcPL.Models;
 using MvcPL.Models.ViewModels;
 using MvcPL.Providers;
 
@@ -80,13 +83,21 @@ namespace MvcPL.Controllers
                 return View(viewModel);
             }
 
-            var anyUser = _userService.GetUserEntityByEmail(viewModel.Email);
-
-            if (anyUser!=null)
+            UserModel anyUser;
+            try
             {
+                anyUser = _userService.GetUserEntityByEmail(viewModel.Email).ToMvcUser();
                 ModelState.AddModelError("", "User with this address already registered.");
                 return View(viewModel);
             }
+            catch(ValidationException ex)
+            { }
+
+            //if (anyUser!=null)
+            //{
+            //    ModelState.AddModelError("", "User with this address already registered.");
+            //    return View(viewModel);
+            //}
 
             if (ModelState.IsValid)
             {

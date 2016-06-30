@@ -27,7 +27,13 @@ namespace MvcPL.Infrastructure.Helpers
             }
             return new MvcHtmlString(divFormGroup.ToString());
         }
-
+        public static MvcHtmlString OutputDateTimeForTable(this HtmlHelper html, DateTime? dateTime)
+        {
+            if (dateTime != null)
+                return new MvcHtmlString(" "+((DateTime)dateTime).ToShortDateString());
+            else
+                return new MvcHtmlString(" Don't set this value");
+        }
         public static MvcHtmlString OutputUserAvatar(this HtmlHelper html, byte[] avatar)
         {
             TagBuilder divFormGroup = new TagBuilder("div");
@@ -35,7 +41,7 @@ namespace MvcPL.Infrastructure.Helpers
             {
                 TagBuilder img = new TagBuilder("img");  
                 img.MergeAttribute("src","data:image/jpeg;base64,"+Convert.ToBase64String(avatar));
-                img.MergeAttribute("style", "max-width:250px;max-height:100%;width:auto;height:auto");
+                img.MergeAttribute("style", "max-width:250px;max-height:150px;width:auto;height:auto");
                 divFormGroup.InnerHtml += img.ToString();
             }
             else
@@ -61,10 +67,11 @@ namespace MvcPL.Infrastructure.Helpers
             }
             else
             {
-                TagBuilder p = new TagBuilder("p");
-                p.AddCssClass("text-muted text-left");
-                p.SetInnerText("No photo");
-                divFormGroup.InnerHtml += p.ToString();
+                TagBuilder h6 = new TagBuilder("h4");
+                h6.AddCssClass("text-muted text-lefr");
+                h6.SetInnerText("No photo");
+                divFormGroup.InnerHtml += h6.ToString();
+                divFormGroup.InnerHtml += new TagBuilder("br");
             }
             return new MvcHtmlString(divFormGroup.ToString());
         }

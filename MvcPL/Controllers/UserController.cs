@@ -10,14 +10,14 @@ using MvcPL.Models.ViewModels;
 
 namespace MvcPL.Controllers
 {
-    [Authorize(Roles = "Administrator")]
-    public class AdministratorController : Controller
+    [Authorize]
+    public class UserController : Controller
     {
         private readonly IUserService userService;
         private readonly IUserProfileService userProfileService;
         private readonly IRoleService roleService;
 
-        public AdministratorController(IUserService userService, IUserProfileService userProfileService, IRoleService roleService)
+        public UserController(IUserService userService, IUserProfileService userProfileService, IRoleService roleService)
         {
             this.userService = userService;
             this.userProfileService = userProfileService;
@@ -31,41 +31,41 @@ namespace MvcPL.Controllers
             foreach (var userModel in allUserModels)
             {
                 var currentRoleNames = roleService.GetUserRoles(userModel.Id).Select(role => role.Name);
-                if (!(currentRoleNames.Any(r => r.Equals("Administrator"))))
+
+                UserProfileModel userProfile =
+                    userProfileService.GetUserProfileEntityById(userModel.Id).ToMvcUserProfile();
+                UserViewModel user = new UserViewModel()
                 {
-                    UserProfileModel userProfile =
-                        userProfileService.GetUserProfileEntityById(userModel.Id).ToMvcUserProfile();
-                    UserViewModel user = new UserViewModel()
-                    {
-                        User = userModel,
-                        Profile = userProfile,
-                        Photos = null,
-                        Roles = currentRoleNames
-                    };
-                    if (userProfile != null)
-                    {
-                        user.Profile.FirstName = userProfile.FirstName;
-                        user.Profile.LastName = userProfile.LastName;
-                        user.Profile.DateOfBirth = userProfile.DateOfBirth;
-                        user.Profile.UserPhoto = userProfile.UserPhoto;
-                    }
-                    resultUsers.Add(user);
+                    User = userModel,
+                    Profile = userProfile,
+                    Photos = null,
+                    Roles = currentRoleNames
+                };
+                if (userProfile != null)
+                {
+                    user.Profile.FirstName = userProfile.FirstName;
+                    user.Profile.LastName = userProfile.LastName;
+                    user.Profile.DateOfBirth = userProfile.DateOfBirth;
+                    user.Profile.UserPhoto = userProfile.UserPhoto;
                 }
+                resultUsers.Add(user);
+
             }
             return View(resultUsers);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
-        public ActionResult EditUser(int id=0)
+        public ActionResult EditUser(string userName = null)
         {
-            if (id==0)
+            if (userName==null)
             {
                 return RedirectToAction("UsersEdit");
             }
             UserModel userModel;
             try
             {
-                userModel = userService.GetUserEntityById(id).ToMvcUser();
+                userModel = userService.GetUserEntityByEmail(userName).ToMvcUser();
             }
             catch (ValidationException ex)
             {
@@ -77,6 +77,7 @@ namespace MvcPL.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult EditUser(UserViewModel viewModel)
         {
@@ -105,13 +106,14 @@ namespace MvcPL.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
-        public ActionResult DeleteUser(int id=0)
+        public ActionResult DeleteUser(string userName = null)
         { 
             UserModel user = new UserModel();
             try
             {
-                user = userService.GetUserEntityById(id)?.ToMvcUser();
+                user = userService.GetUserEntityByEmail(userName)?.ToMvcUser();
             }
             catch (ValidationException ex)
             {
@@ -121,6 +123,7 @@ namespace MvcPL.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("DeleteUser")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteUserConfirmed(UserViewModel viewModel)

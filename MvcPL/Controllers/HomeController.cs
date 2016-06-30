@@ -32,15 +32,15 @@ namespace MvcPL.Controllers
             this.roleService = roleService;
         }
 
-        public ActionResult Index(int id = 0)
+        public ActionResult Index(string userName = null)
         {
             UserModel currentUser = userService.GetUserEntityByEmail(User.Identity.Name).ToMvcUser();
             UserModel user = null;
-            if (id != 0)
+            if (userName != null)
             {
                 try
                 {
-                    user = userService.GetUserEntityById(id)?.ToMvcUser();
+                    user = userService.GetUserEntityByEmail(userName)?.ToMvcUser();
                 }
                 catch (ValidationException ex)
                 {

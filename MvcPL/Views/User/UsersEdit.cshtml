@@ -19,21 +19,25 @@ if (users != null)
      foreach (var user in users)
       {
           <div class="row">
-              <a href='/Home/Index/@user.User.Id'>
+              <a href='/Home/Index/@user.User.Email'>
                   <div class="col-md-2">
                       @Html.OutputSmallUserAvatar(user.Profile.UserPhoto)
                   </div>
                   <div class="col-md-5">
-                      <h4>@user.Profile.FirstName @user.Profile.LastName</h4>
-                      @Html.OutputDateTime(user.Profile.DateOfBirth)
+                      <h4>
+                          @user.Profile.FirstName @user.Profile.LastName <small> Birthday:@Html.OutputDateTimeForTable(user.Profile.DateOfBirth)</small>
+                      </h4>
                   </div>
               </a>
               <div class="col-md-2">
                   <p>@user.User.CreationDate.ToShortDateString()</p>
               </div>
               <div class="col-md-3">
-                  @Html.ActionLink("Edit", "EditUser", new {id = user.User.Id}) |
-                  @Html.ActionLink("Delete", "DeleteUser", new {id = user.User.Id})
+                  @if (User.IsInRole("Administrator"))
+                  {
+                      @Html.ActionLink("Edit", "EditUser", new {userName = user.User.Email})
+                      <small>|</small> @Html.ActionLink("Delete", "DeleteUser", new {userName = user.User.Email})
+                  }
               </div>
           </div>
           <br/>

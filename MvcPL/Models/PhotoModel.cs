@@ -27,7 +27,7 @@ namespace MvcPL.Models
         [Display(Name = "Total rating")]
         public int TotalRating { get; set; }
         public DateTime CreationDate { get; set; }
-        //public virtual ICollection<RatingModel> Ratings { get; set; }
+
         public PhotoModel()
         {
             User = new UserModel();

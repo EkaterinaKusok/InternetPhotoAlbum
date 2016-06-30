@@ -3,6 +3,7 @@ using System.Web.Services;
 using BLL.Interfacies.Services;
 using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
+using NonActionAttribute = System.Web.Http.NonActionAttribute;
 
 namespace MvcPL.Controllers
 {
@@ -19,7 +20,7 @@ namespace MvcPL.Controllers
         }
 
         [ChildActionOnly]
-        public void AddOrUpdateRating(string userName, int photoId, int rating)
+        public ActionResult AddOrUpdateRating(string userName, int photoId, int rating)
         {
             UserModel currentUser = userService.GetUserEntityByEmail(userName).ToMvcUser();
             RatingModel userRating = ratingService.GetUserRatingOfPhoto(currentUser.Id, photoId).ToMvcRating();
@@ -39,11 +40,11 @@ namespace MvcPL.Controllers
                 userRating.UserRating = rating;
                 ratingService.UpdateRating(userRating.ToBllRating());
             }
-            return;
+            return new EmptyResult();
         }
 
         [ChildActionOnly]
-        public void DeleteRating(string userName, int photoId, int rating)
+        public ActionResult DeleteRating(string userName, int photoId, int rating)
         {
             UserModel currentUser = userService.GetUserEntityByEmail(userName).ToMvcUser();
             RatingModel userRating = ratingService.GetUserRatingOfPhoto(currentUser.Id, photoId).ToMvcRating();
@@ -53,7 +54,7 @@ namespace MvcPL.Controllers
                 ratingService.DeleteRating(userRating.ToBllRating());
             }
 
-            return;
+            return new EmptyResult();
         }
     }
 }
